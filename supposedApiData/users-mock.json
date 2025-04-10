@@ -1,0 +1,20 @@
+{
+    "data": [
+        {
+            "firstName": "Eric",
+            "lastName": "Omotolani",
+            "location": {
+                "businessLocation": "Ikoyi Branch",
+                "houseAddress": "Gbagada"
+            }
+        },
+        {
+            "firstName": "Eric",
+            "lastName": "Alawoya",
+            "location": {
+                "businessLocation": "Lekki Branch",
+                "houseAddress": "Magodo"
+            }
+        }
+    ]
+}
