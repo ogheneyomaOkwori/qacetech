@@ -31,12 +31,12 @@ const Nintendo: FC<NitendoProps> = ({
   return (
     <>
       <Title level={3}>
-        <div className="font-bold text-4xl">
+        <div className="font-bold text-lg">
           Hello {loggedInUser?.firstName} {loggedInUser?.lastName}
         </div>
       </Title>
-      <Text className="text-gray-500">
-        <p className="font-light">Welcome to your dashboard</p>
+      <Text className="text-gray-500 text-sm">
+        <p className="font-light text-xxs">Welcome to your dashboard</p>
       </Text>
       <div ref={containerRef}>
         <Row gutter={[16, 16]} className="mt-6">

@@ -87,102 +87,122 @@ const Dashboard = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    alert(
+      "To view the second page, select Nintendo in the sidebar. Other options will show the initial dashboard."
+    );
+  }, []);
+
   return (
     <Layout className="min-h-screen">
       <Sider
-        className="bg-black h-screen"
-        style={{ backgroundColor: "#000" }}
-        width={`15%`}
+        className="bg-black"
+        width={`20%`}
+        style={{
+          backgroundColor: "#000",
+          height: "100vh",
+          position: "fixed",
+          left: 0,
+          top: 0,
+          bottom: 0,
+          zIndex: 1000,
+        }}
       >
         <div className="h-full flex flex-col">
-          <div className="h-[10%] flex items-center justify-center text-white text-2xl font-bold">
+          <div className="h-[10%] flex items-center justify-center text-white text-2xl font-bold mt-2">
             {<LogoSVG />}
           </div>
-          <hr className="border-gray-300 opacity-50 mb-12" />
+          <hr className="border-gray-300 opacity-50 mb-12 mt-4" />
 
           <div className="flex-1 flex flex-col justify-between w-[90%] mx-auto">
             <div>
               {sidebarItems.map((item) => (
                 <div
                   key={item.name}
-                  className={`flex pt-5 px-5 cursor-pointer rounded-xl transform transition duration-200 ${
-                    selectedItem === item.name
-                      ? "bg-[#A93636]"
-                      : "hover:bg-gray-900 hover:scale-[1.03]"
-                  }`}
+                  className={`flex pt-3 px-5 cursor-pointer rounded-xl transform transition duration-200 ${selectedItem === item.name
+                    ? "bg-[#A93636]"
+                    : "hover:bg-gray-900 hover:scale-[1.03]"
+                    }`}
                   onClick={() => setSelectedItem(item.name)}
                 >
-                  <span className="text-2xl relative top-[4px]">
+                  <span className="text-xs relative bottom-[4px]">
                     {item.icon}
                   </span>
-                  <p className="text-white text-lg ml-3">{item.name}</p>
+                  <p className="text-white text-xs ml-3">{item.name}</p>
                 </div>
               ))}
             </div>
 
-            <div className="mt-auto">
+            <div className="mt-auto py-6">
               <div className="flex pt-5 px-5 cursor-pointer rounded-xl transform transition duration-200 hover:scale-[1.03]">
-                <span className="text-2xl relative top-[4px]">
+                <span className="text-xs relative bottom-[4px]">
                   {<IBMCircleSVG />}
                 </span>
-                <p className="text-white text-lg ml-3">IBM</p>
+                <p className="text-white text-xs ml-3">IBM</p>
               </div>
               <div className="flex pt-5 px-5 cursor-pointer rounded-xl transform transition duration-200 hover:scale-[1.03]">
-                <span className="text-2xl relative top-[4px]">
+                <span className="text-xs relative bottom-[4px]">
                   {<LogOutSVG />}
                 </span>
-                <p className="text-white text-lg ml-3">Log Out</p>
+                <p className="text-white text-xs ml-3">Log Out</p>
               </div>
             </div>
           </div>
         </div>
       </Sider>
-      <Layout>
-        <Header className="flex items-center justify-between shadow px-6! py-12! bg-white!">
-          <Input
-            className="max-w-md"
-            size="large"
-            prefix={<SearchIconSVG />}
-            placeholder="Search Parameter & Params"
-          />
-          <div className="flex items-center gap-6">
-            <div className="text-md text-gray-500">
-              {currentDateTime} | <strong>Business Date:</strong>{" "}
-              {currentDateTime}
+      <Layout style={{ marginLeft: '20%' }}>
+        <Header className="flex items-center justify-between shadow px-2 py-3 bg-white!">
+          <div className="flex-1">
+            <Input
+              className="max-w-xs text-xxs"
+              size="small"
+              prefix={<SearchIconSVG />}
+              placeholder="Search Parameter & Params"
+            />
+          </div>
+          <div className="flex items-center gap-4 scale-80">
+            <div className="text-xxs text-gray-500 whitespace-nowrap">
+              {currentDateTime} | <strong>Business Date:</strong> {currentDateTime}
             </div>
-            <div className="flex items-center gap-2 cursor-pointer rounded-full">
-              <Avatar icon={<NotificationSVG />} />
+
+            <div className="flex items-center cursor-pointer">
+              <Avatar size="small" icon={<NotificationSVG />} />
             </div>
+
             <Dropdown overlay={businessLocationMenu} trigger={["click"]}>
-              <div className="flex items-center gap-2 cursor-pointer rounded-full">
-                <Avatar icon={<BuildingSVG />} />
-                <Text>{loggedInUser?.location?.businessLocation}</Text>
-                <DownOutlined />
+              <div className="flex items-center gap-1 cursor-pointer">
+                <Avatar size="small" icon={<BuildingSVG />} />
+                <Text className="text-xxs max-w-[120px] truncate">
+                  {loggedInUser?.location?.businessLocation}
+                </Text>
+                <DownOutlined style={{ fontSize: "10px" }} />
               </div>
             </Dropdown>
+
             <Dropdown overlay={profileMenu} trigger={["click"]}>
-              <div className="flex items-center gap-2 cursor-pointer rounded-full">
-                <Avatar icon={<UserIconSVG />} />
-                <Text>
+              <div className="flex items-center gap-1 cursor-pointer">
+                <Avatar size="small" icon={<UserIconSVG />} />
+                <Text className="text-xxs max-w-[100px] truncate">
                   {loggedInUser?.firstName} {loggedInUser?.lastName}
                 </Text>
-                <DownOutlined />
+                <DownOutlined style={{ fontSize: "10px" }} />
               </div>
             </Dropdown>
           </div>
         </Header>
+
         <Content className="p-6 bg-gray-100">
-          <Nintendo
-            loggedInUser={loggedInUser}
-            jobs={jobs}
-            selectedJobId={selectedJobId}
-            handleCardClick={handleCardClick}
-            containerRef={containerRef}
-          />
-          <div className="my-4">
-            <hr />
-          </div>
-          <NewRequest />
+          {selectedItem === "Nintendo" ? (
+            <NewRequest />
+          ) : (
+            <Nintendo
+              loggedInUser={loggedInUser}
+              jobs={jobs}
+              selectedJobId={selectedJobId}
+              handleCardClick={handleCardClick}
+              containerRef={containerRef}
+            />
+          )}
         </Content>
       </Layout>
     </Layout>
